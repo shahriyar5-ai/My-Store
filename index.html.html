@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oman TrendStore | Premier AI Automated E-Commerce</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            gold: '#D4AF37',
+                            goldHover: '#B89320',
+                            dark: '#0F172A',
+                            card: '#1E293B',
+                            accent: '#10B981',
+                            whatsapp: '#25D366'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0F172A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFF 0%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .pulse-gold {
+            box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.5);
+            animation: pulse-gold 2s infinite;
+        }
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.5); }
+            70% { box-shadow: 0 0 0 14px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-brand-gold selection:text-slate-950">
+
+    <!-- Announcement Bar -->
+    <div class="bg-gradient-to-r from-amber-600 via-brand-gold to-amber-600 text-slate-950 font-semibold text-xs md:text-sm py-2 px-4 text-center tracking-wide flex items-center justify-center gap-2 shadow-md">
+        <i class="ph-bold ph-truck text-base"></i>
+        <span>Express Delivery Across All Governorates in Oman (Muscat, Salalah, Sohar, Nizwa) | Pay via Bank Muscat, Dhofar or Cash on Delivery!</span>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-gold to-amber-700 flex items-center justify-center text-slate-950 font-extrabold text-xl shadow-lg shadow-brand-gold/20">
+                    O
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-tight gold-gradient-text block">OMAN TRENDSTORE</span>
+                    <span class="text-[10px] tracking-widest uppercase text-slate-400 font-medium">Smart AI Commerce Hub</span>
+                </div>
+            </div>
+
+            <!-- Header Action Links -->
+            <div class="flex items-center gap-4 sm:gap-6">
+                <!-- Delivery Info Badge -->
+                <div class="hidden md:flex items-center gap-2 text-xs bg-slate-800/80 border border-slate-700 text-slate-300 py-1.5 px-3 rounded-full">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span>AI Agent Active (Auto-Order 24/7)</span>
+                </div>
+
+                <!-- Direct WhatsApp Link -->
+                <a id="headerWhatsappLink" href="https://wa.me/96890000000?text=Hi%20Oman%20TrendStore,%20I%20want%20to%20inquire%20about%20your%20products" target="_blank" class="flex items-center gap-2 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all">
+                    <i class="ph-bold ph-whatsapp-logo text-lg"></i>
+                    <span class="hidden sm:inline">WhatsApp Bot</span>
+                </a>
+
+                <!-- Shopping Cart Icon -->
+                <button onclick="toggleCartModal()" class="relative p-2.5 bg-slate-800 hover:bg-slate-700 rounded-xl border border-slate-700 transition-colors">
+                    <i class="ph-bold ph-shopping-bag text-xl text-brand-gold"></i>
+                    <span id="cartBadge" class="absolute -top-1.5 -right-1.5 bg-amber-500 text-slate-950 font-bold text-[10px] w-5 h-5 rounded-full flex items-center justify-center shadow-md">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <section class="relative overflow-hidden py-12 md:py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-800/60">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6 text-center md:text-left">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs font-semibold uppercase tracking-wider">
+                    <i class="ph-bold ph-sparkle text-sm"></i> #1 AI-Driven Store in Oman
+                </div>
+                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
+                    Trending Products in <span class="gold-gradient-text">Oman</span>, Handled 100% by AI.
+                </h1>
+                <p class="text-slate-300 text-base sm:text-lg max-w-xl mx-auto md:mx-0 font-light leading-relaxed">
+                    Enjoy lightning-fast delivery across Muscat, Salalah, Sohar, and all Oman regions. Order directly via Bank Muscat transfer, Cash on Delivery, or talk to our 24/7 AI Agent on WhatsApp!
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pt-2">
+                    <a href="#products" class="w-full sm:w-auto bg-gradient-to-r from-brand-gold to-amber-600 hover:from-amber-500 hover:to-amber-700 text-slate-950 font-bold px-8 py-4 rounded-xl shadow-lg shadow-brand-gold/20 transition-all text-center flex items-center justify-center gap-2">
+                        <span>Browse Trending Items</span>
+                        <i class="ph-bold ph-arrow-down"></i>
+                    </a>
+                    <button onclick="openAiChat('Show me the top best sellers in Oman right now')" class="w-full sm:w-auto glass-panel hover:bg-slate-800 text-white font-semibold px-6 py-4 rounded-xl transition-all border border-slate-700 flex items-center justify-center gap-2">
+                        <i class="ph-bold ph-robot text-brand-gold text-xl"></i>
+                        <span>Ask AI Assistant</span>
+                    </button>
+                </div>
+
+                <!-- Trust Badges -->
+                <div class="pt-6 grid grid-cols-3 gap-4 border-t border-slate-800/80 text-center">
+                    <div>
+                        <p class="text-white font-extrabold text-lg sm:text-xl">1-2 Days</p>
+                        <p class="text-xs text-slate-400">Oman Wide Delivery</p>
+                    </div>
+                    <div>
+                        <p class="text-white font-extrabold text-lg sm:text-xl">Bank Muscat</p>
+                        <p class="text-xs text-slate-400">Direct IBAN / COD</p>
+                    </div>
+                    <div>
+                        <p class="text-white font-extrabold text-lg sm:text-xl">24/7 Bot</p>
+                        <p class="text-xs text-slate-400">Instant Automated Orders</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Feature Display / Banner -->
+            <div class="relative flex justify-center">
+                <div class="absolute -inset-1 bg-gradient-to-r from-brand-gold to-emerald-500 rounded-3xl blur-2xl opacity-20 animate-pulse"></div>
+                <div class="relative glass-panel p-6 rounded-3xl border border-slate-700 max-w-md w-full space-y-4">
+                    <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                                <i class="ph-bold ph-shield-check text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">Verified Omani Merchant</h3>
+                                <p class="text-xs text-slate-400">Instant Local Payment & Dispatch</p>
+                            </div>
+                        </div>
+                        <span class="text-xs px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/20">Active Store</span>
+                    </div>
+
+                    <!-- Featured Quick Highlight Card -->
+                    <div class="relative bg-slate-900/90 rounded-2xl p-4 border border-slate-800 overflow-hidden flex gap-4 items-center">
+                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=300&q=80" alt="Hot Seller" class="w-20 h-20 object-cover rounded-xl border border-slate-700">
+                        <div>
+                            <span class="text-[10px] font-bold text-brand-gold uppercase tracking-wider">Top #1 Trending</span>
+                            <h4 class="text-sm font-bold text-white">Portable Turbo Cooling Fan</h4>
+                            <p class="text-xs text-emerald-400 font-semibold mt-1">12.500 OMR <span class="line-through text-slate-500 text-[10px] ml-1">18.000 OMR</span></p>
+                            <button onclick="openCheckoutModal(1)" class="mt-2 text-xs bg-brand-gold hover:bg-brand-goldHover text-slate-950 font-bold px-3 py-1.5 rounded-lg transition-colors">
+                                Fast Checkout
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900/60 rounded-xl p-3 border border-slate-800/80 text-xs text-slate-300 flex items-center gap-3">
+                        <i class="ph-bold ph-chat-circle-dots text-xl text-brand-gold"></i>
+                        <span>AI automated agent ready to talk on WhatsApp & Web store!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main id="products" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full flex-grow">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+            <div>
+                <div class="flex items-center gap-2 text-brand-gold text-xs font-bold uppercase tracking-wider mb-2">
+                    <i class="ph-bold ph-fire text-lg"></i> Carefully Curated for Oman Market
+                </div>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-white">Top Trending Products in Oman</h2>
+            </div>
+            <p class="text-slate-400 text-sm max-w-md">
+                High-demand gadgets, climate solutions, and luxury Arabian lifestyle products with instant delivery across all regions in Oman.
+            </p>
+        </div>
+
+        <!-- Products Grid Container -->
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Dynamic JavaScript Product Cards rendered here -->
+        </div>
+    </section>
+
+    <section class="border-t border-slate-800 bg-slate-900/40 py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">Seamless 3-Step Ordering Process</h2>
+                <p class="text-slate-400 text-sm">Automated by AI. Delivered straight to your doorstep in Oman.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 text-center relative">
+                    <div class="w-12 h-12 bg-brand-gold/10 border border-brand-gold/30 text-brand-gold font-bold text-xl rounded-2xl flex items-center justify-center mx-auto mb-4">1</div>
+                    <h3 class="text-lg font-bold text-white mb-2">Choose or Ask AI</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Select your desired trending product or talk to our 24/7 AI Sales Bot on WhatsApp to get advice and answer questions.</p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 text-center relative">
+                    <div class="w-12 h-12 bg-brand-gold/10 border border-brand-gold/30 text-brand-gold font-bold text-xl rounded-2xl flex items-center justify-center mx-auto mb-4">2</div>
+                    <h3 class="text-lg font-bold text-white mb-2">Pay via Bank Muscat / COD</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Transfer directly to our Bank Muscat or Bank Dhofar account using mobile banking or select Cash on Delivery at checkout.</p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 text-center relative">
+                    <div class="w-12 h-12 bg-brand-gold/10 border border-brand-gold/30 text-brand-gold font-bold text-xl rounded-2xl flex items-center justify-center mx-auto mb-4">3</div>
+                    <h3 class="text-lg font-bold text-white mb-2">Doorstep Oman Delivery</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Your order is dispatched immediately via local courier services across Muscat, Salalah, Sohar, Seeb, and all governorates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-950 border-t border-slate-800/80 py-12 px-4 sm:px-6 lg:px-8 text-slate-400 text-xs">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div class="space-y-3">
+                <span class="text-lg font-bold text-white gold-gradient-text">OMAN TRENDSTORE</span>
+                <p class="text-slate-400 leading-relaxed">The premier AI-managed e-commerce platform delivering high-demand trending products to customers across Sultanate of Oman.</p>
+            </div>
+            <div>
+                <h4 class="text-sm font-bold text-white mb-3 uppercase tracking-wider">Supported Payment Methods</h4>
+                <ul class="space-y-2 text-slate-400">
+                    <li class="flex items-center gap-2"><i class="ph-bold ph-bank text-brand-gold"></i> Bank Muscat Mobile Transfer</li>
+                    <li class="flex items-center gap-2"><i class="ph-bold ph-bank text-brand-gold"></i> Bank Dhofar Account Transfer</li>
+                    <li class="flex items-center gap-2"><i class="ph-bold ph-money text-emerald-400"></i> Cash on Delivery (COD)</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm font-bold text-white mb-3 uppercase tracking-wider">Delivery Regions</h4>
+                <p class="text-slate-400 leading-relaxed">Muscat, Seeb, Salalah, Sohar, Nizwa, Ibri, Sur, Barka, and all Oman Governorates.</p>
+            </div>
+            <div>
+                <h4 class="text-sm font-bold text-white mb-3 uppercase tracking-wider">Customer Support</h4>
+                <p class="text-slate-400 mb-2">Automated AI Assistant active 24 Hours / 7 Days.</p>
+                <a id="footerWhatsapp" href="#" class="inline-flex items-center gap-2 text-emerald-400 hover:text-emerald-300 font-semibold">
+                    <i class="ph-bold ph-whatsapp-logo text-lg"></i> Direct WhatsApp Channel
+                </a>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto pt-6 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <p>&copy; 2026 Oman TrendStore. All Rights Reserved. Powered by AI Autonomous Sales Architecture.</p>
+            <div class="flex gap-4">
+                <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition-colors">Oman Shipping Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    
+    <!-- 1. CHECKOUT & ORDER MODAL -->
+    <div id="checkoutModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="glass-panel max-w-lg w-full rounded-3xl border border-slate-700 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <!-- Modal Header -->
+            <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/80">
+                <div class="flex items-center gap-2">
+                    <i class="ph-bold ph-shopping-cart text-brand-gold text-xl"></i>
+                    <h3 class="text-lg font-bold text-white">Complete Your Order</h3>
+                </div>
+                <button onclick="closeCheckoutModal()" class="text-slate-400 hover:text-white p-1 rounded-lg">
+                    <i class="ph-bold ph-x text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Modal Content (Scrollable) -->
+            <div class="p-6 overflow-y-auto space-y-6">
+                <!-- Product Selected Summary -->
+                <div id="modalProductSummary" class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 flex items-center gap-4">
+                    <!-- Populated dynamically via JS -->
+                </div>
+
+                <!-- Payment Method Selection -->
+                <div class="space-y-3">
+                    <label class="text-xs font-bold uppercase tracking-wider text-slate-300 block">Select Payment Method</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button type="button" id="payMethodBank" onclick="selectPaymentMethod('bank')" class="p-3 rounded-xl border border-brand-gold bg-brand-gold/10 text-left transition-all">
+                            <div class="flex items-center justify-between mb-1">
+                                <i class="ph-bold ph-bank text-brand-gold text-lg"></i>
+                                <span class="w-3 h-3 rounded-full bg-brand-gold"></span>
+                            </div>
+                            <span class="text-xs font-bold text-white block">Bank Transfer</span>
+                            <span class="text-[10px] text-slate-400">Bank Muscat / Dhofar</span>
+                        </button>
+
+                        <button type="button" id="payMethodCod" onclick="selectPaymentMethod('cod')" class="p-3 rounded-xl border border-slate-800 bg-slate-900/60 text-left hover:border-slate-700 transition-all">
+                            <div class="flex items-center justify-between mb-1">
+                                <i class="ph-bold ph-money text-emerald-400 text-lg"></i>
+                                <span class="w-3 h-3 rounded-full border border-slate-600"></span>
+                            </div>
+                            <span class="text-xs font-bold text-white block">Cash on Delivery</span>
+                            <span class="text-[10px] text-slate-400">Pay when delivered</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Bank Account Details (Shown when Bank Transfer is selected) -->
+                <div id="bankDetailsBox" class="bg-amber-950/30 border border-brand-gold/30 rounded-2xl p-4 space-y-2 text-xs">
+                    <div class="flex items-center justify-between font-bold text-brand-gold pb-2 border-b border-brand-gold/20">
+                        <span><i class="ph-bold ph-buildings mr-1"></i> Bank Muscat Account Details</span>
+                        <span class="text-[10px] bg-brand-gold/20 text-brand-gold px-2 py-0.5 rounded">Oman Local</span>
+                    </div>
+                    <div class="space-y-1 text-slate-300">
+                        <p><span class="text-slate-400">Account Name:</span> <strong class="text-white">OMAN TRENDSTORE LLC</strong></p>
+                        <p><span class="text-slate-400">Account Number:</span> <strong class="text-white">0423-01928374-001</strong></p>
+                        <p><span class="text-slate-400">IBAN:</span> <strong class="text-white select-all bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">OM96BMUS0000042301928374001</strong></p>
+                    </div>
+                    <p class="text-[10px] text-amber-300/80 italic pt-1">* Please transfer the order total and paste the payment reference below or send screenshot on WhatsApp.</p>
+                </div>
+
+                <!-- Shipping Form -->
+                <form id="orderForm" onsubmit="handleOrderSubmit(event)" class="space-y-4">
+                    <div>
+                        <label class="text-xs font-semibold text-slate-300 block mb-1">Full Name</label>
+                        <input type="text" id="custName" required placeholder="e.g. Ahmed Al-Busaidi" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-gold transition-colors">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-xs font-semibold text-slate-300 block mb-1">Oman Phone / WhatsApp</label>
+                            <input type="tel" id="custPhone" required placeholder="+968 9XXXXXXX" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-gold transition-colors">
+                        </div>
+                        <div>
+                            <label class="text-xs font-semibold text-slate-300 block mb-1">Governorate / City</label>
+                            <select id="custCity" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-brand-gold transition-colors">
+                                <option value="Muscat">Muscat</option>
+                                <option value="Seeb">Seeb</option>
+                                <option value="Salalah">Salalah</option>
+                                <option value="Sohar">Sohar</option>
+                                <option value="Nizwa">Nizwa</option>
+                                <option value="Ibri">Ibri</option>
+                                <option value="Sur">Sur</option>
+                                <option value="Other Oman City">Other Oman Region</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-semibold text-slate-300 block mb-1">Delivery Address details</label>
+                        <textarea id="custAddress" rows="2" required placeholder="Building / Way number or prominent landmark" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-gold transition-colors"></textarea>
+                    </div>
+
+                    <div id="paymentRefField">
+                        <label class="text-xs font-semibold text-slate-300 block mb-1">Bank Transfer Reference No. (Optional)</label>
+                        <input type="text" id="custPayRef" placeholder="e.g. TXN-9823102" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-gold transition-colors">
+                    </div>
+
+                    <button type="submit" class="w-full bg-gradient-to-r from-brand-gold to-amber-600 hover:from-amber-500 hover:to-amber-700 text-slate-950 font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-brand-gold/20 flex items-center justify-center gap-2 text-sm">
+                        <i class="ph-bold ph-check-circle text-lg"></i>
+                        <span>Confirm Order & Send to WhatsApp Bot</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. FLOATING AI CHATBOT WIDGET -->
+    <div id="aiChatWidget" class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <!-- Floating Chat Button -->
+        <button id="chatToggleBtn" onclick="toggleAiChat()" class="pulse-gold bg-gradient-to-r from-brand-gold to-amber-600 text-slate-950 p-4 rounded-full shadow-2xl hover:scale-105 transition-all flex items-center justify-center relative">
+            <i class="ph-bold ph-robot text-2xl"></i>
+            <span class="absolute -top-1 -right-1 w-3.5 h-3.5 bg-emerald-400 border-2 border-slate-950 rounded-full"></span>
+        </button>
+
+        <!-- Floating Chat Box Container -->
+        <div id="chatBoxContainer" class="hidden glass-panel w-[90vw] sm:w-[380px] h-[520px] rounded-3xl border border-slate-700 shadow-2xl flex-col overflow-hidden transition-all mt-4">
+            <!-- Chat Header -->
+            <div class="bg-slate-900/90 p-4 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <div class="w-9 h-9 rounded-full bg-brand-gold/20 border border-brand-gold/40 flex items-center justify-center text-brand-gold font-bold">
+                            <i class="ph-bold ph-sparkle"></i>
+                        </div>
+                        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 rounded-full border border-slate-900"></span>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-white flex items-center gap-1">
+                            Oman Sales AI Assistant
+                        </h4>
+                        <p class="text-[10px] text-emerald-400">Online | Auto-order & FAQ</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="clearChat()" class="text-slate-400 hover:text-slate-200 text-xs p-1" title="Clear Chat">
+                        <i class="ph-bold ph-arrows-counter-clockwise"></i>
+                    </button>
+                    <button onclick="toggleAiChat()" class="text-slate-400 hover:text-white p-1">
+                        <i class="ph-bold ph-x text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Messages Stream Area -->
+            <div id="chatMessages" class="flex-grow p-4 overflow-y-auto space-y-3 text-xs">
+                <!-- Welcome Message from AI -->
+                <div class="flex gap-2 items-start">
+                    <div class="w-6 h-6 rounded-full bg-brand-gold/20 text-brand-gold flex items-center justify-center flex-shrink-0 text-xs mt-0.5">
+                        <i class="ph-bold ph-robot"></i>
+                    </div>
+                    <div class="bg-slate-800/90 text-slate-200 p-3 rounded-2xl rounded-tl-xs max-w-[85%] border border-slate-700/60 leading-relaxed">
+                        Marhaba! 👋 Welcome to Oman TrendStore. I am your 24/7 AI shopping assistant. How can I help you today? You can ask about our trending products, delivery across Oman, or bank transfer details!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pre-made Quick Prompts -->
+            <div class="px-3 py-2 bg-slate-900/50 border-t border-slate-800/80 flex gap-1.5 overflow-x-auto text-[10px]">
+                <button onclick="sendQuickPrompt('What products are trending in Oman?')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-full whitespace-nowrap border border-slate-700">🔥 Trending Items</button>
+                <button onclick="sendQuickPrompt('How does delivery work in Muscat & Salalah?')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-full whitespace-nowrap border border-slate-700">🚚 Delivery Info</button>
+                <button onclick="sendQuickPrompt('What are your Bank Muscat payment details?')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-full whitespace-nowrap border border-slate-700">💳 Bank Transfer</button>
+            </div>
+
+            <!-- Chat Input Form -->
+            <form onsubmit="handleChatSubmit(event)" class="p-3 bg-slate-900 border-t border-slate-800 flex items-center gap-2">
+                <input type="text" id="chatInput" placeholder="Ask AI anything about products or delivery..." class="flex-grow bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-brand-gold transition-colors">
+                <button type="submit" class="bg-brand-gold hover:bg-brand-goldHover text-slate-950 font-bold p-2 rounded-xl transition-colors">
+                    <i class="ph-bold ph-paper-plane-right text-base"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Configuration & Store Data
+        const STORE_CONFIG = {
+            whatsappNumber: "96890000000", // Replace with your Omani WhatsApp number (+968 XXXXXXXX)
+            currency: "OMR",
+            bankDetails: {
+                bankName: "Bank Muscat",
+                accountName: "OMAN TRENDSTORE LLC",
+                accountNumber: "0423-01928374-001",
+                iban: "OM96BMUS0000042301928374001"
+            }
+        };
+
+        // Trending Products List tailored specifically for the Oman market
+        const PRODUCTS = [
+            {
+                id: 1,
+                name: "Portable Handheld Turbo Cooling Fan",
+                tagline: "Essential for Oman Summer & Outdoor Trips",
+                price: 12.500,
+                oldPrice: 18.000,
+                category: "Climate & Comfort",
+                image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80",
+                description: "High-speed 100-level adjustable wind handheld fan with digital battery display. Perfect for outdoor activities in Muscat, Salalah monsoon walks, and camping.",
+                stock: 14
+            },
+            {
+                id: 2,
+                name: "Smart Hydration Temperature Water Bottle",
+                tagline: "HD Touch Screen - Keeps Ice Cold for 24 Hours",
+                price: 8.900,
+                oldPrice: 13.500,
+                category: "Lifestyle & Fitness",
+                image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=600&q=80",
+                description: "Premium stainless steel insulated flask with LED temperature display top. Double-wall vacuum insulation suitable for hot days in Oman.",
+                stock: 22
+            },
+            {
+                id: 3,
+                name: "Portable Wireless Car Tire Air Inflator Pump",
+                tagline: "High Power Emergency Pump with LED Light",
+                price: 16.000,
+                oldPrice: 24.000,
+                category: "Auto & Outdoor",
+                image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=600&q=80",
+                description: "Heavy-duty rechargeable cordless tire inflator with auto preset shutoff. Essential for desert drives, Wadis, and daily highway commutes across Oman.",
+                stock: 9
+            },
+            {
+                id: 4,
+                name: "Premium Electric Oud & Bakhoor Atomizer",
+                tagline: "Rechargeable Luxury Arabic Diffuser for Car & Home",
+                price: 14.500,
+                oldPrice: 21.000,
+                category: "Arabic Fragrance",
+                image: "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?auto=format&fit=crop&w=600&q=80",
+                description: "Sleek metallic electronic incense burner for traditional Oud & Bakhoor. Flame-free, portable, and ideal for Omani homes, cars, and offices.",
+                stock: 18
+            }
+        ];
+
+        let currentSelectedProduct = null;
+        let currentPaymentMethod = 'bank'; // 'bank' or 'cod'
+        let chatHistory = [];
+
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = PRODUCTS.map(product => `
+                <div class="glass-panel rounded-3xl overflow-hidden border border-slate-800 hover:border-brand-gold/40 transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <!-- Product Image Container -->
+                        <div class="relative h-56 overflow-hidden bg-slate-900">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-bold text-brand-gold border border-brand-gold/30 uppercase">
+                                ${product.category}
+                            </div>
+                            <div class="absolute top-3 right-3 bg-red-500/90 text-white px-2 py-0.5 rounded-md text-[10px] font-bold">
+                                Limited Stock
+                            </div>
+                        </div>
+
+                        <!-- Product Content -->
+                        <div class="p-5 space-y-3">
+                            <span class="text-[11px] text-slate-400 block font-medium">${product.tagline}</span>
+                            <h3 class="text-base font-bold text-white group-hover:text-brand-gold transition-colors leading-snug">${product.name}</h3>
+                            <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">${product.description}</p>
+                            
+                            <!-- Price Display -->
+                            <div class="flex items-baseline gap-2 pt-2">
+                                <span class="text-lg font-extrabold text-white">${product.price.toFixed(3)} ${STORE_CONFIG.currency}</span>
+                                <span class="text-xs text-slate-500 line-through">${product.oldPrice.toFixed(3)} ${STORE_CONFIG.currency}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Actions -->
+                    <div class="p-5 pt-0 space-y-2">
+                        <button onclick="openCheckoutModal(${product.id})" class="w-full bg-gradient-to-r from-brand-gold to-amber-600 hover:from-amber-500 hover:to-amber-700 text-slate-950 font-bold py-2.5 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 text-xs">
+                            <i class="ph-bold ph-bag-check text-base"></i>
+                            <span>Buy Now (Bank / COD)</span>
+                        </button>
+                        <button onclick="openWhatsappForProduct('${product.name}', ${product.price})" class="w-full bg-slate-900 hover:bg-emerald-950/40 text-emerald-400 border border-emerald-500/30 font-semibold py-2 rounded-xl transition-all flex items-center justify-center gap-2 text-xs">
+                            <i class="ph-bold ph-whatsapp-logo text-base"></i>
+                            <span>Chat & Order on WhatsApp</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openCheckoutModal(productId) {
+            currentSelectedProduct = PRODUCTS.find(p => p.id === productId);
+            if (!currentSelectedProduct) return;
+
+            // Populate Modal Summary
+            const summaryBox = document.getElementById('modalProductSummary');
+            summaryBox.innerHTML = `
+                <img src="${currentSelectedProduct.image}" class="w-16 h-16 object-cover rounded-xl border border-slate-700">
+                <div class="flex-grow">
+                    <h4 class="text-xs font-bold text-white">${currentSelectedProduct.name}</h4>
+                    <p class="text-[10px] text-slate-400">${currentSelectedProduct.category}</p>
+                    <p class="text-xs font-extrabold text-brand-gold mt-1">${currentSelectedProduct.price.toFixed(3)} ${STORE_CONFIG.currency}</p>
+                </div>
+            `;
+
+            document.getElementById('checkoutModal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.add('hidden');
+        }
+
+        function selectPaymentMethod(method) {
+            currentPaymentMethod = method;
+            const bankBtn = document.getElementById('payMethodBank');
+            const codBtn = document.getElementById('payMethodCod');
+            const bankBox = document.getElementById('bankDetailsBox');
+            const payRefField = document.getElementById('paymentRefField');
+
+            if (method === 'bank') {
+                bankBtn.className = "p-3 rounded-xl border border-brand-gold bg-brand-gold/10 text-left transition-all";
+                bankBtn.querySelector('span:nth-child(2)').className = "w-3 h-3 rounded-full bg-brand-gold";
+                codBtn.className = "p-3 rounded-xl border border-slate-800 bg-slate-900/60 text-left hover:border-slate-700 transition-all";
+                codBtn.querySelector('span:nth-child(2)').className = "w-3 h-3 rounded-full border border-slate-600";
+                bankBox.classList.remove('hidden');
+                payRefField.classList.remove('hidden');
+            } else {
+                codBtn.className = "p-3 rounded-xl border border-emerald-500 bg-emerald-500/10 text-left transition-all";
+                codBtn.querySelector('span:nth-child(2)').className = "w-3 h-3 rounded-full bg-emerald-500";
+                bankBtn.className = "p-3 rounded-xl border border-slate-800 bg-slate-900/60 text-left hover:border-slate-700 transition-all";
+                bankBtn.querySelector('span:nth-child(2)').className = "w-3 h-3 rounded-full border border-slate-600";
+                bankBox.classList.add('hidden');
+                payRefField.classList.add('hidden');
+            }
+        }
+
+        function handleOrderSubmit(event) {
+            event.preventDefault();
+            if (!currentSelectedProduct) return;
+
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+            const city = document.getElementById('custCity').value;
+            const address = document.getElementById('custAddress').value;
+            const payRef = document.getElementById('custPayRef').value || 'COD / Pending';
+
+            // Construct WhatsApp Message for Instant AI Processing
+            const orderMsg = `🛒 *NEW ORDER RECEIVED - OMAN TRENDSTORE*
+-----------------------------------
+*Product:* ${currentSelectedProduct.name}
+*Price:* ${currentSelectedProduct.price.toFixed(3)} ${STORE_CONFIG.currency}
+*Payment Method:* ${currentPaymentMethod === 'bank' ? 'Bank Muscat Transfer' : 'Cash on Delivery (COD)'}
+*Payment Ref:* ${payRef}
+
+*CUSTOMER DETAILS:*
+- *Name:* ${name}
+- *Phone:* ${phone}
+- *City/Governorate:* ${city}
+- *Address:* ${address}
+-----------------------------------
+Please confirm my order and send estimated delivery timing!`;
+
+            const encodedMsg = encodeURIComponent(orderMsg);
+            const waUrl = `https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodedMsg}`;
+
+            // Redirect to WhatsApp
+            window.open(waUrl, '_blank');
+            closeCheckoutModal();
+        }
+
+        function openWhatsappForProduct(prodName, price) {
+            const msg = `Hi Oman TrendStore AI Assistant! 👋 I am interested in *${prodName}* (${price.toFixed(3)} ${STORE_CONFIG.currency}). Can you confirm availability and delivery details for my city?`;
+            window.open(`https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function toggleAiChat() {
+            const container = document.getElementById('chatBoxContainer');
+            if (container.classList.contains('hidden')) {
+                container.classList.remove('hidden');
+                container.classList.add('flex');
+            } else {
+                container.classList.add('hidden');
+                container.classList.remove('flex');
+            }
+        }
+
+        function openAiChat(initialPrompt) {
+            const container = document.getElementById('chatBoxContainer');
+            container.classList.remove('hidden');
+            container.classList.add('flex');
+            if (initialPrompt) {
+                sendQuickPrompt(initialPrompt);
+            }
+        }
+
+        function sendQuickPrompt(promptText) {
+            document.getElementById('chatInput').value = promptText;
+            handleChatSubmit(new Event('submit'));
+        }
+
+        function clearChat() {
+            document.getElementById('chatMessages').innerHTML = `
+                <div class="flex gap-2 items-start">
+                    <div class="w-6 h-6 rounded-full bg-brand-gold/20 text-brand-gold flex items-center justify-center flex-shrink-0 text-xs mt-0.5">
+                        <i class="ph-bold ph-robot"></i>
+                    </div>
+                    <div class="bg-slate-800/90 text-slate-200 p-3 rounded-2xl rounded-tl-xs max-w-[85%] border border-slate-700/60 leading-relaxed">
+                        Chat reset! How can I assist you with your shopping in Oman today?
+                    </div>
+                </div>
+            `;
+            chatHistory = [];
+        }
+
+        async function handleChatSubmit(e) {
+            e.preventDefault();
+            const inputEl = document.getElementById('chatInput');
+            const query = inputEl.value.trim();
+            if (!query) return;
+
+            // Render User Message
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML += `
+                <div class="flex gap-2 items-start justify-end">
+                    <div class="bg-brand-gold text-slate-950 p-3 rounded-2xl rounded-tr-xs max-w-[85%] font-medium leading-relaxed">
+                        ${escapeHtml(query)}
+                    </div>
+                </div>
+            `;
+            inputEl.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Render Loading Indicator
+            const loadingId = 'loading-' + Date.now();
+            chatMessages.innerHTML += `
+                <div id="${loadingId}" class="flex gap-2 items-start">
+                    <div class="w-6 h-6 rounded-full bg-brand-gold/20 text-brand-gold flex items-center justify-center flex-shrink-0 text-xs mt-0.5">
+                        <i class="ph-bold ph-robot"></i>
+                    </div>
+                    <div class="bg-slate-800/90 text-slate-400 p-3 rounded-2xl rounded-tl-xs max-w-[85%] border border-slate-700/60 animate-pulse">
+                        AI Assistant is thinking...
+                    </div>
+                </div>
+            `;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Request LLM Generation using Gemini API
+            try {
+                const systemInstruction = `You are the official AI Sales & Customer Support Agent for "Oman TrendStore", a premier e-commerce store operating in Oman.
+Your goal is to answer customer questions politely, help them choose trending products, explain payment methods (Bank Muscat IBAN transfer or Cash on Delivery), and guide them to order.
+
+Store Products Available:
+1. Portable Handheld Turbo Cooling Fan - 12.500 OMR (Best for summer heat)
+2. Smart Hydration Temperature Water Bottle - 8.900 OMR (24-hr ice cold)
+3. Portable Wireless Car Tire Air Inflator Pump - 16.000 OMR (Desert/Car emergency)
+4. Premium Electric Oud & Bakhoor Atomizer - 14.500 OMR (Car/Home Arabic scent)
+
+Delivery Policy:
+- Express delivery in 1-2 business days across all Oman regions (Muscat, Salalah, Sohar, Nizwa, Seeb, Sur).
+- Delivery fee: Free for orders over 20 OMR, or 1.500 OMR flat rate.
+
+Payment Details:
+- Bank Muscat Account: 0423-01928374-001 | IBAN: OM96BMUS0000042301928374001
+- Cash on Delivery (COD) available.
+
+Keep responses concise (max 3-4 short sentences), friendly, incorporating Omani etiquette (e.g. "Marhaba", "Shukran"). Always suggest clicking "Buy Now" or ordering on WhatsApp (+968 9000 0000).`;
+
+                const apiKey = ""; // Canvas runtime provides key
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: query }] }],
+                        systemInstruction: { parts: [{ text: systemInstruction }] }
+                    })
+                });
+
+                const data = await response.json();
+                const aiResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Marhaba! I am here to help you order any trending items. Would you like to check out our top sellers?";
+
+                // Remove loading element
+                document.getElementById(loadingId)?.remove();
+
+                // Append AI Response
+                chatMessages.innerHTML += `
+                    <div class="flex gap-2 items-start">
+                        <div class="w-6 h-6 rounded-full bg-brand-gold/20 text-brand-gold flex items-center justify-center flex-shrink-0 text-xs mt-0.5">
+                            <i class="ph-bold ph-robot"></i>
+                        </div>
+                        <div class="bg-slate-800/90 text-slate-200 p-3 rounded-2xl rounded-tl-xs max-w-[85%] border border-slate-700/60 leading-relaxed space-y-2">
+                            ${formatAiText(aiResponse)}
+                        </div>
+                    </div>
+                `;
+            } catch (err) {
+                console.error("AI API Error:", err);
+                document.getElementById(loadingId)?.remove();
+                chatMessages.innerHTML += `
+                    <div class="flex gap-2 items-start">
+                        <div class="w-6 h-6 rounded-full bg-brand-gold/20 text-brand-gold flex items-center justify-center flex-shrink-0 text-xs mt-0.5">
+                            <i class="ph-bold ph-robot"></i>
+                        </div>
+                        <div class="bg-slate-800/90 text-slate-200 p-3 rounded-2xl rounded-tl-xs max-w-[85%] border border-slate-700/60 leading-relaxed">
+                            Marhaba! We deliver anywhere in Oman (Muscat, Salalah, Sohar). You can place orders via Bank Muscat transfer or Cash on Delivery. Click "Buy Now" on any product card!
+                        </div>
+                    </div>
+                `;
+            }
+
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Helper utilities
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        function formatAiText(text) {
+            return text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>');
+        }
+
+        // Initialize Store on Window Load
+        window.onload = function() {
+            renderProducts();
+            
+            // Set WhatsApp Links
+            const waHref = `https://wa.me/${STORE_CONFIG.whatsappNumber}?text=Hi%20Oman%20TrendStore,%20I%20want%20to%20place%20an%20order`;
+            document.getElementById('headerWhatsappLink').href = waHref;
+            document.getElementById('footerWhatsapp').href = waHref;
+        };
+    </script>
+</body>
+</html>
